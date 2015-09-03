@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.atlwork</groupId>
+	<artifactId>atlwork-mvn-general</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>Maven General Conf Parent</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<atlwork.project.source>1.7</atlwork.project.source>
+		<atlwork.project.target>1.7</atlwork.project.target>
+
+		<atlwork.project.downloadSources>true</atlwork.project.downloadSources>
+		<atlwork.project.downloadJavadocs>true</atlwork.project.downloadJavadocs>
+	</properties>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.3</version>
+					<configuration>
+						<source>${atlwork.project.source}</source>
+						<target>${atlwork.project.target}</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<version>2.10</version>
+					<configuration>
+						<wtpversion>2.0</wtpversion>
+						<eclipseProjectDir>.</eclipseProjectDir>
+						<downloadSources>${atlwork.project.downloadSources}</downloadSources>
+						<downloadJavadocs>${atlwork.project.downloadJavadocs}</downloadJavadocs>
+					</configuration>
+				</plugin>
+
+				<!-- frontend specific configuration -->
+				<plugin>
+					<groupId>com.github.trecloux</groupId>
+					<artifactId>yeoman-maven-plugin</artifactId>
+					<version>0.5</version>
+					<executions>
+						<execution>
+							<id>atlwork ##### run frontend build</id>
+							<phase>generate-resources</phase>
+							<goals>
+								<goal>build</goal>
+							</goals>
+							<configuration>
+								<buildTool>grunt</buildTool>
+								<testArgs>test --verbose --no-color</testArgs>
+								<buildArgs>build --verbose --force --no-color</buildArgs>
+							</configuration>
+						</execution>
+					</executions>
+					<configuration>
+						<yeomanProjectDirectory>${project.basedir}</yeomanProjectDirectory>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>2.6.1</version>
+					<configuration>
+						<filesets>
+							<fileset>
+								<directory>src/main/webapp/dist</directory>
+							</fileset>
+							<fileset>
+								<directory>.tmp</directory>
+							</fileset>
+							<fileset>
+								<directory>node_modules</directory>
+							</fileset>
+						</filesets>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+</project>
